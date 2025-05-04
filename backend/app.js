@@ -4,12 +4,12 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const errorMiddleware = require('./middlewares/error');
 const cors = require('cors');
+
+const app = express();
 app.use(cors({
     origin: 'https://ecomzy1.netlify.app', // Your Netlify frontend URL
   }));
   
-
-const app = express();
 
 // config
 if (process.env.NODE_ENV !== 'production') {
