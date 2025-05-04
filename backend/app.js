@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const errorMiddleware = require('./middlewares/error');
+const cors = require('cors');
+app.use(cors());  // This will allow all domains to access your API
 
 const app = express();
 

@@ -5,6 +5,8 @@ const cloudinary = require('cloudinary');
 const app = require('./backend/app');
 const connectDatabase = require('./backend/config/database');
 const PORT = process.env.PORT || 4000;
+const cors = require('cors');
+app.use(cors());  // This will allow all domains to access your API
 
 // UncaughtException Error
 process.on('uncaughtException', (err) => {
