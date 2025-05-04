@@ -3,7 +3,7 @@ import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from "../constants/wishlistCons
 
 // Add To Wishlist
 export const addToWishlist = (id) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+    const { data } = await axios.get(`https://ecomzy-backend-nfkl.onrender.com/api/v1/product/${id}`);
 
     dispatch({
         type: ADD_TO_WISHLIST,

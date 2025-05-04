@@ -55,7 +55,7 @@ const Payment = () => {
             };
 
             const { data } = await axios.post(
-                '/api/v1/payment/process',
+                'https://ecomzy-backend-nfkl.onrender.com/api/v1/payment/process',
                 paymentData,
                 config,
             );
