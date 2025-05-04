@@ -6,7 +6,10 @@ const app = require('./backend/app');
 const connectDatabase = require('./backend/config/database');
 const PORT = process.env.PORT || 4000;
 const cors = require('cors');
-app.use(cors());  // This will allow all domains to access your API
+app.use(cors({
+    origin: 'https://ecomzy1.netlify.app', // Your Netlify frontend URL
+  }));
+  
 
 // UncaughtException Error
 process.on('uncaughtException', (err) => {
