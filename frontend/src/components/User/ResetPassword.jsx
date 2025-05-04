@@ -97,7 +97,7 @@ const ResetPassword = () => {
 
                   {/* <!-- button container --> */}
                   <div class="flex flex-col gap-2.5 mt-2 mb-32">
-                    <p class="text-xs text-primary-grey text-left">By continuing, you agree to Ecomzy's <a href="" class="text-primary-blue"> Terms of Use</a> and <a href="" class="text-primary-blue"> Privacy Policy.</a></p>
+                    <p class="text-xs text-primary-grey text-left">By continuing, you agree to Ecomzy's <a href="/" onClick={(e) => e.preventDefault()} class="text-primary-blue"> Terms of Use</a> and <a href="/" onClick={(e) => e.preventDefault()} class="text-primary-blue"> Privacy Policy.</a></p>
                     <button type="submit" class="text-white py-3 w-full bg-primary-orange shadow hover:shadow-lg rounded-sm font-medium">Submit</button>
                   </div>
                   {/* <!-- button container --> */}
