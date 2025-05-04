@@ -54,24 +54,53 @@ export const newOrder = (order) => async (dispatch, getState) => {
 // };
 
 // Get User Orders
-export const myOrders = () => async (dispatch) => {
+export const myOrders = () => async (dispatch, getState) => {
     try {
         dispatch({ type: MY_ORDERS_REQUEST });
 
-        const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/orders/me');
+        const { userLogin: { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.get(
+            'https://ecomzy-backend-nfkl.onrender.com/api/v1/orders/me',
+            config
+        );
 
         dispatch({
             type: MY_ORDERS_SUCCESS,
             payload: data.orders,
-        })
+        });
 
     } catch (error) {
         dispatch({
             type: MY_ORDERS_FAIL,
-            payload: error.response.data.message,
+            payload: error.response ? error.response.data.message : error.message,
         });
     }
 };
+// export const myOrders = () => async (dispatch) => {
+//     try {
+//         dispatch({ type: MY_ORDERS_REQUEST });
+
+//         const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/orders/me');
+
+//         dispatch({
+//             type: MY_ORDERS_SUCCESS,
+//             payload: data.orders,
+//         })
+
+//     } catch (error) {
+//         dispatch({
+//             type: MY_ORDERS_FAIL,
+//             payload: error.response.data.message,
+//         });
+//     }
+// };
 
 // Get Order Details
 export const getOrderDetails = (id) => async (dispatch) => {
