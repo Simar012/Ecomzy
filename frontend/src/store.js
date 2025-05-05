@@ -1,3 +1,4 @@
+import { userLoginReducer } from './reducers/userReducer';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -9,6 +10,7 @@ import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer
 import { wishlistReducer } from './reducers/wishlistReducer';
 
 const reducer = combineReducers({
+    userLogin: userLoginReducer,
     user: userReducer,
     profile: profileReducer,
     forgotPassword: forgotPasswordReducer,
@@ -33,6 +35,11 @@ const reducer = combineReducers({
 });
 
 let initialState = {
+    userLogin: {
+        userInfo: localStorage.getItem('userInfo')
+            ? JSON.parse(localStorage.getItem('userInfo'))
+            : null,
+    },    
     cart: {
         cartItems: localStorage.getItem('cartItems')
             ? JSON.parse(localStorage.getItem('cartItems'))
