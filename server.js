@@ -7,7 +7,8 @@ const connectDatabase = require('./backend/config/database');
 const PORT = process.env.PORT || 4000;
 const cors = require('cors');
 app.use(cors({
-    origin: 'https://ecomzy1.netlify.app', // Your Netlify frontend URL
+    origin: ["https://ecomzy1.netlify.app", "http://localhost:3000"], // Your Netlify frontend URL
+    credentials: true
   }));
   
 

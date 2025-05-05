@@ -35,17 +35,34 @@ const Payment = () => {
 
     const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-    const paymentData = {
-        amount: Math.round(totalPrice),
-        email: user.email,
-        phoneNo: shippingInfo.phoneNo,
-    };
+    // const paymentData = {
+    //     amount: Math.round(totalPrice),
+    //     email: user.email,
+    //     phoneNo: shippingInfo.phoneNo,
+    // };
 
     const submitHandler = async (e) => {
         e.preventDefault();
         setPayDisable(true);
 
+        // Check if user is logged in
+        if (!user) {
+            enqueueSnackbar("Please log in to proceed with the payment.", { variant: "error" });
+            navigate("/login");
+            return;
+        }
 
+        // Check if shipping info exists
+        if (!shippingInfo) {
+            enqueueSnackbar("Shipping information is missing.", { variant: "error" });
+            return;
+        }
+        const paymentData = {
+            amount: Math.round(totalPrice),
+            email: user.email,
+            phoneNo: shippingInfo.phoneNo,
+        };
+        
         try {
             const config = {
                 headers: {
