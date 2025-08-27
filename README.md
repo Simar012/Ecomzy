@@ -66,3 +66,18 @@ Full-Stack Ecomzy with Admin Dashboard & Payment Gateway.
 - User Management: 👥 Admins can update user data and delete users.
 - Review Management: 📜 Admins can view and delete product reviews.
 - Stock Management: 📉 Product stock is automatically decreased upon shipment.
+
+## ⚡Getting Started
+1️⃣ Clone the Repository
+```sh
+git clone https://github.com/Simar012/Ecomzy.git
+```
+2️⃣ Setup Backend
+```sh
+npm install
+```
+3️ Setup Frontend
+```sh
+cd frontend
+npm install
+```
