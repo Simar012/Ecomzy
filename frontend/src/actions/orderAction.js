@@ -175,7 +175,15 @@ export const getAllOrders = () => async (dispatch) => {
     try {
         dispatch({ type: ALL_ORDERS_REQUEST });
 
-        const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/orders');
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/orders', config);
 
         dispatch({
             type: ALL_ORDERS_SUCCESS,
@@ -185,23 +193,28 @@ export const getAllOrders = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ALL_ORDERS_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
 
-// Update Order ---ADMIN
 export const updateOrder = (id, order) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_ORDER_REQUEST });
 
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
         const config = {
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         };
 
-        const { data } = await axios.put(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/order/${id}`, order, config);
+        const { data } = await axios.put(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/order/${id}`,
+            order,
+            config
+        );
 
         dispatch({
             type: UPDATE_ORDER_SUCCESS,
@@ -211,17 +224,27 @@ export const updateOrder = (id, order) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_ORDER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
 
-// Delete Order ---ADMIN
 export const deleteOrder = (id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_ORDER_REQUEST });
 
-        const { data } = await axios.delete(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/order/${id}`);
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.delete(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/order/${id}`,
+            config
+        );
 
         dispatch({
             type: DELETE_ORDER_SUCCESS,
@@ -231,10 +254,11 @@ export const deleteOrder = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_ORDER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
+
 
 // Clear All Errors
 export const clearErrors = () => (dispatch) => {

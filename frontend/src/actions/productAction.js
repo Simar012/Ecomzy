@@ -99,7 +99,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 export const newReview = (reviewData) => async (dispatch) => {
     try {
         dispatch({ type: NEW_REVIEW_REQUEST });
-        const config = { header: { "Content-Type": "application/json" } }
+        const config = { headers: { "Content-Type": "application/json" } }
         const { data } = await axios.put("https://ecomzy-backend-nfkl.onrender.com/api/v1/review", reviewData, config);
 
         dispatch({
@@ -138,7 +138,16 @@ export const getAdminProducts = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_PRODUCTS_REQUEST });
 
-        const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/products');
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = {
+            headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" },
+        };
+
+        const { data } = await axios.get(
+            'https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/products',
+            config
+        );
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
@@ -156,7 +165,11 @@ export const getAdminProducts = () => async (dispatch) => {
 export const createProduct = (productData) => async (dispatch) => {
     try {
         dispatch({ type: NEW_PRODUCT_REQUEST });
-        const config = { header: { "Content-Type": "application/json" } }
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = {
+            headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" },
+        };
         const { data } = await axios.post("https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/product/new", productData, config);
 
         dispatch({
@@ -175,7 +188,11 @@ export const createProduct = (productData) => async (dispatch) => {
 export const updateProduct = (id, productData) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_PRODUCT_REQUEST });
-        const config = { header: { "Content-Type": "application/json" } }
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = {
+            headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" },
+        };
         const { data } = await axios.put(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/product/${id}`, productData, config);
 
         dispatch({
@@ -194,8 +211,16 @@ export const updateProduct = (id, productData) => async (dispatch) => {
 export const deleteProduct = (id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_PRODUCT_REQUEST });
-        const { data } = await axios.delete(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/product/${id}`);
 
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = {
+            headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" },
+        };
+        const { data } = await axios.delete(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/product/${id}`,
+            config
+        );
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
             payload: data.success,
@@ -212,7 +237,13 @@ export const deleteProduct = (id) => async (dispatch) => {
 export const getAllReviews = (id) => async (dispatch) => {
     try {
         dispatch({ type: ALL_REVIEWS_REQUEST });
-        const { data } = await axios.get(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/reviews?id=${id}`);
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = { headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" } };
+        const { data } = await axios.get(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/reviews?id=${id}`,
+            config
+        );
 
         dispatch({
             type: ALL_REVIEWS_SUCCESS,
@@ -230,7 +261,14 @@ export const getAllReviews = (id) => async (dispatch) => {
 export const deleteReview = (reviewId, productId) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_REVIEW_REQUEST });
-        const { data } = await axios.delete(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/reviews?id=${reviewId}&productId=${productId}`);
+        const token = localStorage.getItem("token").replace(/"/g, "");
+        const config = { headers: { Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" } };
+        const { data } = await axios.delete(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/reviews?id=${reviewId}&productId=${productId}`,
+            config
+        );
+
 
         dispatch({
             type: DELETE_REVIEW_SUCCESS,

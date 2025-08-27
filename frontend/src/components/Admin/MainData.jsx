@@ -6,14 +6,40 @@ import { getAllOrders } from '../../actions/orderAction';
 import { getAllUsers } from '../../actions/userAction';
 import { categories } from '../../utils/constants';
 import MetaData from '../Layouts/MetaData';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+// Register all necessary elements globally
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const MainData = () => {
 
     const dispatch = useDispatch();
 
-    const { products } = useSelector((state) => state.products);
-    const { orders } = useSelector((state) => state.allOrders);
-    const { users } = useSelector((state) => state.users);
+const { products = [] } = useSelector((state) => state.products);
+const { orders = [] } = useSelector((state) => state.allOrders);
+const { users = [] } = useSelector((state) => state.users);
+
 
     let outOfStock = 0;
 
@@ -29,7 +55,7 @@ const MainData = () => {
         dispatch(getAllUsers());
     }, [dispatch]);
 
-    let totalAmount = orders?.reduce((total, order) => total + order.totalPrice, 0);
+    let totalAmount = (orders || []).reduce((total, order) => total + order.totalPrice, 0);
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     const date = new Date();
@@ -76,7 +102,7 @@ const MainData = () => {
             {
                 backgroundColor: ['#ef4444', '#22c55e'],
                 hoverBackgroundColor: ['#dc2626', '#16a34a'],
-                data: [outOfStock, products.length - outOfStock],
+               data: [outOfStock, (products?.length || 0) - outOfStock],
             },
         ],
     };
@@ -105,15 +131,15 @@ const MainData = () => {
                 </div>
                 <div className="flex flex-col bg-red-500 text-white gap-2 rounded-xl shadow-lg hover:shadow-xl p-6">
                     <h4 className="text-gray-100 font-medium">Total Orders</h4>
-                    <h2 className="text-2xl font-bold">{orders?.length}</h2>
+                    <h2 className="text-2xl font-bold">{orders?.length || 0}</h2>
                 </div>
                 <div className="flex flex-col bg-yellow-500 text-white gap-2 rounded-xl shadow-lg hover:shadow-xl p-6">
                     <h4 className="text-gray-100 font-medium">Total Products</h4>
-                    <h2 className="text-2xl font-bold">{products?.length}</h2>
+                    <h2 className="text-2xl font-bold">{products?.length || 0}</h2>
                 </div>
                 <div className="flex flex-col bg-green-500 text-white gap-2 rounded-xl shadow-lg hover:shadow-xl p-6">
                     <h4 className="text-gray-100 font-medium">Total Users</h4>
-                    <h2 className="text-2xl font-bold">{users?.length}</h2>
+                    <h2 className="text-2xl font-bold">{users?.length || 0}</h2>
                 </div>
             </div>
 

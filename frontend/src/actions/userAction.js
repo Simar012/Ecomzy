@@ -41,20 +41,18 @@ import axios from 'axios';
 // Login User
 export const loginUser = (email, password) => async (dispatch) => {
     try {
-
         dispatch({ type: LOGIN_USER_REQUEST });
 
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
+        const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.post(
             'https://ecomzy-backend-nfkl.onrender.com/api/v1/login',
             { email, password },
             config
         );
+        console.log(data);
+        // Store token
+        localStorage.setItem("token", data.token);
 
         dispatch({
             type: LOGIN_USER_SUCCESS,
@@ -64,7 +62,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOGIN_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -74,22 +72,16 @@ export const registerUser = (userData) => async (dispatch) => {
     try {
         dispatch({ type: REGISTER_USER_REQUEST });
 
-        const config = {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        }
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-        // const { data } = await axios.post(
-        //     'https://ecomzy-backend-nfkl.onrender.com/api/v1/register',
-        //     userData,
-        //     config
-        // );
         const { data } = await axios.post(
-    'http://localhost:4000/api/v1/register', // local backend
-    userData,
-    config
-);
+            'https://ecomzy-backend-nfkl.onrender.com/api/v1/register',
+            userData,
+            config
+        );
+
+        // Store token
+        localStorage.setItem("token", data.token);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -99,7 +91,7 @@ export const registerUser = (userData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: REGISTER_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -119,8 +111,8 @@ export const loadUser = () => async (dispatch) => {
 
     } catch (error) {
         dispatch({
-          type: LOAD_USER_FAIL,
-          payload: error.response?.data?.message || error.message,
+            type: LOAD_USER_FAIL,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -266,9 +258,21 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 // Get All Users ---ADMIN
 export const getAllUsers = () => async (dispatch) => {
     try {
-
         dispatch({ type: ALL_USERS_REQUEST });
-        const { data } = await axios.get('https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/users');
+
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.get(
+            'https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/users',
+            config
+        );
+
         dispatch({
             type: ALL_USERS_SUCCESS,
             payload: data.users,
@@ -277,7 +281,7 @@ export const getAllUsers = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ALL_USERS_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -285,9 +289,20 @@ export const getAllUsers = () => async (dispatch) => {
 // Get User Details ---ADMIN
 export const getUserDetails = (id) => async (dispatch) => {
     try {
-
         dispatch({ type: USER_DETAILS_REQUEST });
-        const { data } = await axios.get(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/user/${id}`);
+
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.get(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/user/${id}`,
+            config
+        );
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -297,7 +312,7 @@ export const getUserDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_DETAILS_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -305,14 +320,15 @@ export const getUserDetails = (id) => async (dispatch) => {
 // Update User Details ---ADMIN
 export const updateUser = (id, userData) => async (dispatch) => {
     try {
-
         dispatch({ type: UPDATE_USER_REQUEST });
 
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
         const config = {
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-        }
+        };
 
         const { data } = await axios.put(
             `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/user/${id}`,
@@ -328,7 +344,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
@@ -336,9 +352,20 @@ export const updateUser = (id, userData) => async (dispatch) => {
 // Delete User ---ADMIN
 export const deleteUser = (id) => async (dispatch) => {
     try {
-
         dispatch({ type: DELETE_USER_REQUEST });
-        const { data } = await axios.delete(`https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/user/${id}`);
+
+        const token = localStorage.getItem("token")?.replace(/"/g, "");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.delete(
+            `https://ecomzy-backend-nfkl.onrender.com/api/v1/admin/user/${id}`,
+            config
+        );
 
         dispatch({
             type: DELETE_USER_SUCCESS,
@@ -348,10 +375,11 @@ export const deleteUser = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
+
 
 // Clear All Errors
 export const clearErrors = () => async (dispatch) => {
