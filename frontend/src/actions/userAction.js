@@ -72,7 +72,6 @@ export const loginUser = (email, password) => async (dispatch) => {
 // Register User
 export const registerUser = (userData) => async (dispatch) => {
     try {
-
         dispatch({ type: REGISTER_USER_REQUEST });
 
         const config = {
@@ -81,11 +80,16 @@ export const registerUser = (userData) => async (dispatch) => {
             },
         }
 
+        // const { data } = await axios.post(
+        //     'https://ecomzy-backend-nfkl.onrender.com/api/v1/register',
+        //     userData,
+        //     config
+        // );
         const { data } = await axios.post(
-            'https://ecomzy-backend-nfkl.onrender.com/api/v1/register',
-            userData,
-            config
-        );
+    'http://localhost:4000/api/v1/register', // local backend
+    userData,
+    config
+);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,

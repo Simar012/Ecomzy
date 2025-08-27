@@ -5,30 +5,45 @@ const ErrorHandler = require('../utils/errorHandler');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
+const streamifier = require('streamifier');
 
 // Register User
-exports.registerUser = asyncErrorHandler(async (req, res, next) => {
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        width: 150,
-        crop: "scale",
-    });
-
+exports.registerUser = async (req, res) => {
+  try {
     const { name, email, gender, password } = req.body;
 
-    const user = await User.create({
-        name, 
-        email,
-        gender,
-        password,
-        avatar: {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-        },
+    if (!req.file) {
+      return res.status(400).json({ message: "Avatar file is missing" });
+    }
+
+    const myCloud = await new Promise((resolve, reject) => {
+      const stream = cloudinary.v2.uploader.upload_stream(
+        { folder: "avatars", width: 150, crop: "scale" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      streamifier.createReadStream(req.file.buffer).pipe(stream);
     });
-    
+
+    const user = await User.create({
+      name,
+      email,
+      gender,
+      password,
+      avatar: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
+    });
+
     sendToken(user, 201, res);
-});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 // Login User
 exports.loginUser = asyncErrorHandler(async (req, res, next) => {

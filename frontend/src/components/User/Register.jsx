@@ -47,33 +47,25 @@ const Register = () => {
             enqueueSnackbar("Select Avatar", { variant: "error" });
             return;
         }
-
         const formData = new FormData();
-        formData.set("name", name);
-        formData.set("email", email);
-        formData.set("gender", gender);
-        formData.set("password", password);
-        formData.set("avatar", avatar);
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("gender", gender);
+        formData.append("password", password);
+        formData.append("avatar", avatar);
 
         dispatch(registerUser(formData));
     }
 
     const handleDataChange = (e) => {
         if (e.target.name === "avatar") {
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setAvatarPreview(reader.result);
-                    setAvatar(reader.result);
-                }
-            };
-
-            reader.readAsDataURL(e.target.files[0]);
-
+            const file = e.target.files[0];
+            setAvatarPreview(URL.createObjectURL(file)); // for image preview
+            setAvatar(file); // store the file object directly
         } else {
             setUser({ ...user, [e.target.name]: e.target.value });
         }
+
     }
 
     useEffect(() => {
