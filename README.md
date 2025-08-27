@@ -49,7 +49,7 @@ Full-Stack Ecomzy with Admin Dashboard & Payment Gateway.
   
 **Checkout Process**
 - Shipping Info: 🚚 Shipping information is stored in session storage for ease of checkout.
-- Payment Options: 💳 Users can pay through Paytm payment gateway for checkout.
+- Payment Options: 💳 Users can pay through Stripe payment gateway for checkout.
   
 **Order Management**
 - My Orders: 📦 Users can view their order history with various filters.
