@@ -9,7 +9,7 @@ const Searchbar = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(keyword.trim()){
+        if (keyword.trim()) {
             navigate(`/products/${keyword}`)
         } else {
             navigate('/products');
@@ -17,10 +17,25 @@ const Searchbar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full sm:w-9/12 px-1 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white overflow-hidden rounded-xl ">
-            <input value={keyword} onChange={(e) => setKeyword(e.target.value)} className="text-sm flex-1 outline-none border-none placeholder-gray-500" type="text" placeholder="Search for products, brands and more" />
-            <button type="submit" className="text-primary-blue"><SearchIcon /></button>
+        <form
+            onSubmit={handleSubmit}
+            className="w-full sm:w-9/12 px-1 sm:px-4 py-1.5 flex items-center shadow-md bg-white overflow-hidden rounded-xl"
+        >
+            <input
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                className="text-sm flex-1 min-w-0 outline-none border-none placeholder-gray-500"
+                type="text"
+                placeholder="Search for products"
+            />
+            <button
+                type="submit"
+                className="text-primary-blue ml-2 flex-shrink-0"
+            >
+                <SearchIcon />
+            </button>
         </form>
+
     );
 };
 

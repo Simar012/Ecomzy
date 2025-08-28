@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+    overflow-x: hidden;
+}
+
 body {
     background-color: #f1f3f6;
     font-family: 'Roboto', sans-serif;

@@ -39,20 +39,16 @@ const catNav = [
         icon: furniture,
     },
     {
-        name: "Beauty,Toys & more",
+        name: "Beauty",
         icon: beauty,
-    },
-    {
-        name: "Grocery",
-        icon: grocery,
     },
 ]
 
 const Categories = () => {
     return (
-        <section className="hidden sm:block bg-white mt-12 mb-4 min-w-full px-12 py-1 shadow overflow-hidden">
+        <section className="sm:block bg-white mt-12 mb-4 min-w-full px-12 py-6 shadow overflow-hidden">
 
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between flex-wrap">
 
                 {catNav.map((item, i) => (
                     <Link to={`/products?category=${item.name}`} className="flex flex-col gap-1 items-center p-2 group" key={i}>
